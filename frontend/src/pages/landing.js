@@ -2,7 +2,11 @@ import React from 'react'
 import "../App.css"
 import { Link, useNavigate } from 'react-router-dom'
 
-export default function landing() {
+
+ 
+
+export default function LandingPage() {
+   const navigate=useNavigate();
   return (
    <div className='landingPageContainer'>
             <nav>
@@ -12,14 +16,14 @@ export default function landing() {
 
                 <div className='navlist'>
                     <p onClick={() => {
-                        navigator("/aljk23")
+                        navigate("/random123")
                     }}>Join as Guest</p>
                     <p onClick={() => {
-                        navigator("/auth")
+                        navigate("/auth")
 
                     }}>Register</p>
                     <div onClick={() => {
-                        navigator("/auth")
+                        navigate("/auth")
 
                     }} role='button'>
                         <p>Login</p>

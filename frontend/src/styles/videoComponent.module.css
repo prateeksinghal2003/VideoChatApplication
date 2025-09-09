@@ -6,11 +6,13 @@
 
 .meetUserVideo {
     position: absolute;
-    bottom: 10vh;
+  
+    bottom: 2vh;
     height: 20vh;
     width: auto;
     left: 0;
     border-radius: 20px;
+    margin-left: 1rem;
 }
 
 .buttonContainers {
@@ -33,10 +35,13 @@
 }
 
 .conferenceView  video {
-    width: 40vw;
-    height: 20vh;
-    min-width: 30vw;
+    /* width: 40vw; */
+    height: 30vh;
+    /* min-width: 30vw; */
     border-radius: 10px;
+  
+   
+
 }
 
 .chatRoom {
@@ -47,15 +52,24 @@
     border-radius: 10px;
     width: 30vw;
     padding-inline: 20px;
+    margin-top: 2rem;
+      margin-right: 2rem;
 }
 
 .chatContainer {
     position: relative;
     height: 100%;
+  
 }
 
 
 .chattingArea {
     position: absolute;
     bottom: 0;
+    display :flex;
+    gap: 2rem;
+    margin-bottom: 1rem;
+    
 }
+
+
