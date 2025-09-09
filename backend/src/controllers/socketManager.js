@@ -5,7 +5,7 @@ let connections = {}
 let messages = {}
 let timeOnline = {}
 
-const io = new Server(Server, {
+const io = new Server(Server,{
   cors: {
     origin: [
       "http://localhost:3000", // local frontend
@@ -13,8 +13,8 @@ const io = new Server(Server, {
     ],
     methods: ["GET", "POST"],
     credentials: true
-  }
-});
+  }}
+);
 
 
     io.on("connection", (socket) => {
@@ -117,5 +117,5 @@ const io = new Server(Server, {
 
 
     return io;
-}
+
 
