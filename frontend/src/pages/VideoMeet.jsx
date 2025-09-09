@@ -11,9 +11,9 @@ import MicOffIcon from '@mui/icons-material/MicOff'
 import ScreenShareIcon from '@mui/icons-material/ScreenShare';
 import StopScreenShareIcon from '@mui/icons-material/StopScreenShare'
 import ChatIcon from '@mui/icons-material/Chat'
-//import server from '../environment';
+import server from '../environment';
 
-const server_url = "http://localhost:8000";
+const server_url = server;
 
 var connections = {};
 
@@ -56,7 +56,7 @@ const peerConfigConnections = {
 
 export default function VideoMeetComponent() {
 
-    
+
 
     var socketRef = useRef();
     let socketIdRef = useRef();
