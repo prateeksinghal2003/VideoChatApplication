@@ -5,15 +5,16 @@ let connections = {}
 let messages = {}
 let timeOnline = {}
 
-export const connectToSocket = (server) => {
-    const io = new Server(server, {
-        cors: {
-            origin: "*",
-            methods: ["GET", "POST"],
-            allowedHeaders: ["*"],
-            credentials: true
-        }
-    });
+const io = new Server(server, {
+  cors: {
+    origin: [
+      "http://localhost:3000", // local frontend
+      "https://videochatapplicationfrontend.onrender.com" // Render frontend
+    ],
+    methods: ["GET", "POST"],
+    credentials: true
+  }
+});
 
 
     io.on("connection", (socket) => {
