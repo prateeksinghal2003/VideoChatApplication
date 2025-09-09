@@ -5,7 +5,7 @@ let connections = {}
 let messages = {}
 let timeOnline = {}
 
-const io = new Server(server, {
+const io = new Server(Server, {
   cors: {
     origin: [
       "http://localhost:3000", // local frontend
