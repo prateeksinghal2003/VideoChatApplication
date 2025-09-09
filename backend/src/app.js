@@ -1,5 +1,7 @@
 import express from "express";
 import { createServer } from "node:http";
+import dotenv from "dotenv";
+dotenv.config();
 
 //import { Server } from "socket.io";
 
@@ -29,7 +31,7 @@ app.use("/api/v1/users", userRoutes);
 
 const start = async () => {
     app.set("mongo_user")
-    const connectionDb = await mongoose.connect("mongodb+srv://prateeksinghal682_db_user:Kce0VGRx191PPF4F@cluster0.fekgnio.mongodb.net/")
+    const connectionDb = await mongoose.connect(process.env.MONGODB_URL)
 
     console.log(`MONGO Connected DB HOst: ${connectionDb.connection.host}`)
     server.listen(app.get("port"), () => {
