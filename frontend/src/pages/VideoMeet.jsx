@@ -18,36 +18,25 @@ const server_url = server;
 var connections = {};
 
 // What is a STUN Server?
-
 // STUN = Session Traversal Utilities for NAT
-
 // It’s a small helper server used in video calls, voice calls, and real-time apps (like Zoom, WhatsApp, Google Meet).
-
 // Its job is to help your computer/mobile find out its public IP address and port when it is behind a router (NAT).
 
 // 🔹 Why do we need it?
-
 // Normally:
-
 // Your device has a private IP (like 192.168.x.x) inside your home WiFi.
-
 // But the person you want to call only sees your public IP (given by your ISP).
-
 // To connect directly (peer-to-peer), apps need to know:
 // ✅ your public IP
 // ✅ which port your router opened for you
-
 // 👉 That’s exactly what a STUN server tells your app.
-
 // 🔹 Example
-
 // You open a video call app.
-
 // The app asks the STUN server: "Hey, what’s my public IP and port?"
-
 // STUN replies: "Your public IP is 103.22.xx.xx and you’re reachable at port 54321."
-
 // Now your app can share this info with the other person → so you both can connect directly.
+
+
 const peerConfigConnections = {
     "iceServers": [
         { "urls": "stun:stun.l.google.com:19302" }
@@ -114,6 +103,36 @@ export default function VideoMeetComponent() {
         }
     }
 
+//     Ask for camera permission
+
+// Requests video access from the user.
+
+// If granted → sets videoAvailable = true.
+
+// If denied → sets videoAvailable = false.
+
+// Ask for microphone permission
+
+// Requests audio access from the user.
+
+// If granted → sets audioAvailable = true.
+
+// If denied → sets audioAvailable = false.
+
+// Check if screen sharing is possible
+
+// If the browser supports getDisplayMedia → sets screenAvailable = true.
+
+// Otherwise → screenAvailable = false.
+
+// If either video or audio is available
+
+// Requests a combined MediaStream (video + audio) from the browser.
+
+// Saves it to window.localStream so it can be reused.
+
+// Sets it as the source of the local video element (localVideoref.current.srcObject) so the user can see their own video.
+
     const getPermissions = async () => {
         try {
             const videoPermission = await navigator.mediaDevices.getUserMedia({ video: true });
@@ -154,6 +173,18 @@ export default function VideoMeetComponent() {
         }
     };
 
+//srcObject is an in-built property of <audio> and <video> elements in the browser.
+// What it does:
+// Normally, for a <video> tag, you set the source with src:
+// But when you want to play live media (like a webcam, microphone, or screen capture), there is no file/URL. Instead, you get a MediaStream object from getUserMedia().
+// srcObject can accept a MediaStream, a MediaSource, or a Blob.
+
+// In our case, userMediaStream is a MediaStream (from camera/mic).
+
+// Once assigned, the video element will play the live stream.
+
+
+
     useEffect(() => {
         if (video !== undefined && audio !== undefined) {
             getUserMedia();
@@ -163,6 +194,7 @@ export default function VideoMeetComponent() {
 
 
     }, [video, audio])
+
     let getMedia = () => {
         setVideo(videoAvailable);
         setAudio(audioAvailable);
@@ -223,11 +255,18 @@ export default function VideoMeetComponent() {
         })
     }
 
+
+//     This function activates your camera and/or microphone if you have permission and want them on.
+// If either video or audio should be active, it asks the browser to give access.
+// If access is granted, it calls another function (getUserMediaSuccess) to handle the stream.
+// If both video and audio are OFF, it stops any existing tracks so nothing keeps running.
+// Basically, it turns your camera/mic on or off depending on what you want.
+
     let getUserMedia = () => {
         if ((video && videoAvailable) || (audio && audioAvailable)) {
             navigator.mediaDevices.getUserMedia({ video: video, audio: audio })
                 .then(getUserMediaSuccess)
-                .then((stream) => { })
+                // .then((stream) => { })
                 .catch((e) => console.log(e))
         } else {
             try {
