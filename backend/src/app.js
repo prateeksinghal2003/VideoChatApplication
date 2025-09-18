@@ -3,10 +3,10 @@ import { createServer } from "node:http";
 import dotenv from "dotenv";
 dotenv.config();
 
-//import { Server } from "socket.io";
+import { Server } from "socket.io";
 
 import mongoose from "mongoose";
-import { connectToSocket } from "./controllers/socketManager.js";
+//import { connectToSocket } from "./controllers/socketManager.js";
 
 import cors from "cors";
 import userRoutes from "./routes/users.routes.js";
@@ -14,9 +14,9 @@ import userRoutes from "./routes/users.routes.js";
 
 const app = express();
 const server = createServer(app);
-//const io = new Server(server);
+const io = new Server(server);
 
-const io = connectToSocket(server);
+//const io = connectToSocket(server);
 
 
 app.set("port", (process.env.PORT || 8000))

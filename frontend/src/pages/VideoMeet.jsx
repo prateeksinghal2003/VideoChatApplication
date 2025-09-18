@@ -220,6 +220,7 @@ export default function VideoMeetComponent() {
 
             connections[id].createOffer().then((description) => {
                 console.log(description)
+
                 connections[id].setLocalDescription(description)
                     .then(() => {
                         socketRef.current.emit('signal', id, JSON.stringify({ 'sdp': connections[id].localDescription }))
@@ -229,8 +230,15 @@ export default function VideoMeetComponent() {
         }
 
         stream.getTracks().forEach(track => track.onended = () => {
-            setVideo(false);
-            setAudio(false);
+            // setVideo(false);
+            // setAudio(false);
+
+             if (track.kind === "video") {
+        setVideo(false);
+    }
+    if (track.kind === "audio") {
+        setAudio(false);
+    }
 
             try {
                 let tracks = localVideoref.current.srcObject.getTracks()
@@ -302,6 +310,19 @@ export default function VideoMeetComponent() {
                     .catch(e => console.log(e))
             })
         }
+
+//  When screen share starts → stop old streams.
+// 	Replace local stream with the screen stream.
+// 	Show it in your video element.
+// 	Send it to all peers (so they see your screen).
+// 	If screen share stops (user clicks stop):
+// 	Turn off screen flag.
+// 	Stop those tracks.
+// 	Replace with dummy silent/black stream.
+// 	Then switch back to camera/mic with getUserMedia.
+
+
+
 
         stream.getTracks().forEach(track => track.onended = () => {
             setScreen(false)
