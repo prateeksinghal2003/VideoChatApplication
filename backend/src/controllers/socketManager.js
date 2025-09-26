@@ -1,49 +1,47 @@
-import { Server } from "socket.io"
+let connections = {}
+let messages = {}
+let timeOnline = {}
 
-
-let connections = {}  
-let messages = {} 
-let timeOnline = {} 
-
-const io = new Server(Server,{ 
-  cors: {
-    origin: [ 
-      "http://localhost:3000", // local frontend 
-      "https://videochatapplicationfrontend.onrender.com" // Render frontend 
-    ],
-    methods: ["GET", "POST"], 
-    credentials: true 
-  }}
-);
-
-//new client came in
+export const attachSocketHandlers = (io) => {
+    //new client came in
     io.on("connection", (socket) => {
 
         console.log("SOMETHING CONNECTED")
 
         //new client joining the existing room or a new room
         socket.on("join-call", (path) => {
-
-            if (connections[path] === undefined) {
-                connections[path] = []
+            let roomKey = path;
+            try {
+                const url = new URL(path);
+                roomKey = url.pathname || path;
+            } catch (_) {
+                // path is not a URL; keep as-is
             }
-            connections[path].push(socket.id)
+            // normalize trailing slashes
+            if (roomKey.length > 1 && roomKey.endsWith('/')) {
+                roomKey = roomKey.slice(0, -1);
+            }
+
+            if (connections[roomKey] === undefined) {
+                connections[roomKey] = []
+            }
+            connections[roomKey].push(socket.id)
 
             timeOnline[socket.id] = new Date();
 
 
         //sending notifications to all clients 
-            for (let a = 0; a < connections[path].length; a++) {
-                io.to(connections[path][a]).emit("user-joined", socket.id, connections[path])
+            for (let a = 0; a < connections[roomKey].length; a++) {
+                io.to(connections[roomKey][a]).emit("user-joined", socket.id, connections[roomKey])
             }
 
 
-            if (messages[path] !== undefined) {
+            if (messages[roomKey] !== undefined) {
 
                 //loop through previous messages
-                for (let a = 0; a < messages[path].length; ++a) {
-                    io.to(socket.id).emit("chat-message", messages[path][a]['data'],
-                        messages[path][a]['sender'], messages[path][a]['socket-id-sender'])
+                for (let a = 0; a < messages[roomKey].length; ++a) {
+                    io.to(socket.id).emit("chat-message", messages[roomKey][a]['data'],
+                        messages[roomKey][a]['sender'], messages[roomKey][a]['socket-id-sender'])
                 }
             }
 
@@ -122,8 +120,4 @@ const io = new Server(Server,{
 
 
     })
-
-
-   // return io;
-
-
+}
