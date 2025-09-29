@@ -475,15 +475,25 @@ export default function VideoMeetComponent() {
         return Object.assign(stream.getVideoTracks()[0], { enabled: false })
     }
 
+   
+
     let handleVideo = () => {
-        setVideo(!video);
+       // setVideo(!video);
         // getUserMedia();
+
+        setVideo(prev => {
+            const newVideo = !prev;
+            if (window.localStream) {
+                window.localStream.getVideoTracks().forEach(track => {
+                    track.enabled = newVideo;
+                });
+            }
+            return newVideo;
+        });
       
     }
 
-   
-
-
+    
     
 
     let handleAudio = () => {
