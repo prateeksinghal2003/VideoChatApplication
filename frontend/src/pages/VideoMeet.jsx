@@ -56,9 +56,9 @@ export default function VideoMeetComponent() {
 
     let [audioAvailable, setAudioAvailable] = useState(true);
 
-    let [video, setVideo] = useState([]);
+    let [video, setVideo] = useState(true);
 
-    let [audio, setAudio] = useState();
+    let [audio, setAudio] = useState(true);
 
     let [screen, setScreen] = useState();
 
@@ -478,7 +478,14 @@ export default function VideoMeetComponent() {
     let handleVideo = () => {
         setVideo(!video);
         // getUserMedia();
+      
     }
+
+   
+
+
+    
+
     let handleAudio = () => {
         setAudio(!audio)
         // getUserMedia();
