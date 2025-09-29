@@ -34,7 +34,8 @@ app.set("port", (process.env.PORT || 8000))
  const corsOptions = {
     origin: [
         "http://localhost:3000",
-        "https://videochatapplicationfrontend.onrender.com"
+        "https://videochatapplicationfrontendpart2.onrender.com"
+        // "https://videochatapplicationfrontend.onrender.com"
     ],
     credentials: true,
     methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
