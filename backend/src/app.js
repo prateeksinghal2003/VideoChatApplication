@@ -6,21 +6,42 @@ dotenv.config();
 import { Server } from "socket.io";
 
 import mongoose from "mongoose";
-//import { connectToSocket } from "./controllers/socketManager.js";
+import { connectToSocket } from "./controllers/socketManager.js";
 
 import cors from "cors";
 import userRoutes from "./routes/users.routes.js";
+//import { attachSocketHandlers } from "./controllers/socketManager.js";
 
 
 const app = express();
 const server = createServer(app);
-const io = new Server(server);
+// const io = new Server(server, {
+//     cors: {
+//         origin: [
+//             "http://localhost:3000",
+//             "https://videochatapplicationfrontend.onrender.com"
+//         ],
+//         methods: ["GET", "POST"],
+//         credentials: true
+//     }
+// });
+// attachSocketHandlers(io);
 
-//const io = connectToSocket(server);
+const io = connectToSocket(server);
 
 
 app.set("port", (process.env.PORT || 8000))
- app.use(cors());
+ const corsOptions = {
+    origin: [
+        "http://localhost:3000",
+        "https://videochatapplicationfrontend.onrender.com"
+    ],
+    credentials: true,
+    methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+ };
+ app.use(cors(corsOptions));
+ app.options(/.*/, cors(corsOptions));
  app.use(express.json({ limit: "40kb" })); //to limit the payload
  app.use(express.urlencoded({ limit: "40kb", extended: true }));
 

@@ -230,15 +230,15 @@ export default function VideoMeetComponent() {
         }
 
         stream.getTracks().forEach(track => track.onended = () => {
-            // setVideo(false);
-            // setAudio(false);
+             setVideo(false);
+             setAudio(false);
 
-             if (track.kind === "video") {
-        setVideo(false);
-    }
-    if (track.kind === "audio") {
-        setAudio(false);
-    }
+    //          if (track.kind === "video") {
+    //     setVideo(false);
+    // }
+    // if (track.kind === "audio") {
+    //     setAudio(false);
+    // }
 
             try {
                 let tracks = localVideoref.current.srcObject.getTracks()
